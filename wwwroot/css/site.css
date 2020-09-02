@@ -6,12 +6,27 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
+@font-face {
+    font-family: "best";
+    src: url(/Fonts/Spin.ttf);
+    /*  src: url("CustomFont.woff") format("woff"), url("CustomFont.otf") format("opentype"), url("CustomFont.svg#filename") format("svg");*/
+}
+body {
+    font-family:best;
+    background-color: #D6DBDF;
+}
 
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
 }
-
+.logo1{
+    height:30px;
+    width:30px;
+}
+.card-1 {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;

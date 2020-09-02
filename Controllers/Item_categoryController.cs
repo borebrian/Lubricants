@@ -95,7 +95,8 @@ namespace Lubricants.Controllers
 
                
             }
-            return RedirectToAction(nameof(Index));
+            return View(await _context.Items_category.ToListAsync());
+
 
         }
 

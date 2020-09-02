@@ -20,7 +20,11 @@ namespace Fuela.DBContext
         }
 
 
-       
+        public DbSet<Lubricants.Models.CategoriesBooks> CategoriesBooks { get; set; }
+        public DbSet<Lubricants.Models.CatItems> catItems { get; set; }//imecreate??
+
+
+
 
 
 

@@ -58,10 +58,10 @@ namespace Lubricants
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
+            {//si utarudisha tu
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Item_category}/{action=Create}/{id?}");
+                    pattern: "{controller=CategoriesBooks}/{action=Index}/{id?}");
             });
         }
     }

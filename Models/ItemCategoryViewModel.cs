@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace Lubricants.Models
 {
-    public class Item_category
+    public class ItemCategoryViewModel
     {
-
-      //  public c_Post c_Post { set; get; }
         public List<Item_category> item_Categories { set; get; }
 
         [Key]
@@ -19,25 +17,19 @@ namespace Lubricants.Models
 
         [Display(Name = "ID", Prompt = "ID")]
         public int ID { get; set; }
+        //hapa ungeweka guid
 
+        //[maxxlenght(50)]..na ikue string
 
         [Display(Name = "Category name:", Prompt = "Category name")]
         [Required]
         [MaxLength(50)]
-        public string  Category_name { get; set; }
+        public string Category_name { get; set; }
 
         [Display(Name = "Choose image:", Prompt = "Choose image")]
         [Required]
         [NotMapped]
         public IFormFile Category_image { get; set; }
         public string ImageURL { get; set; }
-      
-
-
-
-        //[Display(Name = "Upload Image:", Prompt = "Upload image")]
-        //[Required(ErrorMessage = "Please choose profile image")]
-    
-        //public IFormFile Category_picture { get; set; }
     }
 }
