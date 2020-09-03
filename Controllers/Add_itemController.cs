@@ -40,8 +40,13 @@ namespace Lubricants.Controllers
                 obj.Category_name = item.Category_name;
                     obj.Item_price = item.Item_price;
                 joinList.Add(obj);
+
+                var combineList = joinList.ToList();
+
+                ViewBag.JoinList = combineList;
             }
             return View(joinList);
+
         }
 
         // GET: Add_item/Details/5
