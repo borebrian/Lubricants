@@ -14,12 +14,16 @@ namespace Lubricants.Models
       //  public c_Post c_Post { set; get; }
         public List<Item_category> item_Categories { set; get; }
 
+        //[Key]
+        //[Required]
+
+        //[Display(Name = "ID", Prompt = "ID")]
+        //public int ID { get; set; }
         [Key]
         [Required]
 
         [Display(Name = "ID", Prompt = "ID")]
-        public int ID { get; set; }
-
+        public int IDT { get; set; }
 
         [Display(Name = "Category name:", Prompt = "Category name")]
         [Required]

@@ -41,7 +41,7 @@ namespace Lubricants.Controllers
             }
 
             var item_category = await _context.Items_category
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.IDT == id);
             if (item_category == null)
             {
                 return NotFound();
@@ -53,6 +53,8 @@ namespace Lubricants.Controllers
         // GET: Item_category/Create
         public IActionResult Create()
         {
+            List<Item_category> itemlist = _context.Items_category.ToList();
+            ViewBag.itemlist = itemlist;
             return View();
         }
 
@@ -95,7 +97,12 @@ namespace Lubricants.Controllers
 
                
             }
-            return View(await _context.Items_category.ToListAsync());
+
+            List<Item_category> itemlist = _context.Items_category.ToList();
+            ViewBag.itemlist = itemlist;
+            return RedirectToAction(nameof(Create));
+
+            //return View(await _context.Items_category.ToListAsync());
 
 
         }
@@ -124,7 +131,7 @@ namespace Lubricants.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Category_title")] Item_category item_category)
         {
-            if (id != item_category.ID)
+            if (id != item_category.IDT)
             {
                 return NotFound();
             }
@@ -138,7 +145,7 @@ namespace Lubricants.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!Item_categoryExists(item_category.ID))
+                    if (!Item_categoryExists(item_category.IDT))
                     {
                         return NotFound();
                     }
@@ -161,7 +168,7 @@ namespace Lubricants.Controllers
             }
 
             var item_category = await _context.Items_category
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.IDT == id);
             if (item_category == null)
             {
                 return NotFound();
@@ -183,7 +190,7 @@ namespace Lubricants.Controllers
 
         private bool Item_categoryExists(int id)
         {
-            return _context.Items_category.Any(e => e.ID == id);
+            return _context.Items_category.Any(e => e.IDT == id);
         }
     }
 }

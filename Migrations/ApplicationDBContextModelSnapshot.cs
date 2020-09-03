@@ -19,43 +19,50 @@ namespace Lubricants.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Lubricants.Models.CatItems", b =>
+            modelBuilder.Entity("Lubricants.Models.Add_item", b =>
                 {
-                    b.Property<string>("ItemId")
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Category_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DateTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("IDT")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Item_name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("CatId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<float>("Item_price")
+                        .HasColumnType("real");
 
-                    b.Property<string>("ItemName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ItemId");
-
-                    b.ToTable("catItems");
-                });
-
-            modelBuilder.Entity("Lubricants.Models.CategoriesBooks", b =>
-                {
-                    b.Property<string>("id")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("CatName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.HasKey("id");
 
-                    b.ToTable("CategoriesBooks");
+                    b.HasIndex("IDT");
+
+                    b.ToTable("Add_item");
                 });
 
             modelBuilder.Entity("Lubricants.Models.Item_category", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("IDT")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("Add_itemid")
+                        .HasColumnType("int");
 
                     b.Property<string>("Category_name")
                         .IsRequired()
@@ -65,21 +72,34 @@ namespace Lubricants.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Item_categoryID")
+                    b.Property<int?>("Item_categoryIDT")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("IDT");
 
-                    b.HasIndex("Item_categoryID");
+                    b.HasIndex("Add_itemid");
+
+                    b.HasIndex("Item_categoryIDT");
 
                     b.ToTable("Items_category");
                 });
 
+            modelBuilder.Entity("Lubricants.Models.Add_item", b =>
+                {
+                    b.HasOne("Lubricants.Models.Item_category", "category")
+                        .WithMany()
+                        .HasForeignKey("IDT");
+                });
+
             modelBuilder.Entity("Lubricants.Models.Item_category", b =>
                 {
+                    b.HasOne("Lubricants.Models.Add_item", null)
+                        .WithMany("item_Categories")
+                        .HasForeignKey("Add_itemid");
+
                     b.HasOne("Lubricants.Models.Item_category", null)
                         .WithMany("item_Categories")
-                        .HasForeignKey("Item_categoryID");
+                        .HasForeignKey("Item_categoryIDT");
                 });
 #pragma warning restore 612, 618
         }
