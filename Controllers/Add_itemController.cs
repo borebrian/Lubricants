@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Fuela.DBContext;
 using Lubricants.Models;
+using System.Runtime.InteropServices;
 
 namespace Lubricants.Controllers
 {
     public class Add_itemController : Controller
     {
         private readonly ApplicationDBContext _context;
+       static  Boolean search;
 
         public Add_itemController(ApplicationDBContext context)
         {
@@ -46,7 +48,7 @@ namespace Lubricants.Controllers
         }
 
         // GET: Add_item/Create
-        public IActionResult Create(Item_category cateGory)
+        public IActionResult Create(Item_category cateGory, [Optional] string Value)
         {
             string selectedValue = cateGory.Category_name;
             List<Item_category> CategoryList = new List<Models.Item_category>();
@@ -85,9 +87,20 @@ namespace Lubricants.Controllers
                 JoinObject.id = item.id;
                 joinList.Add(JoinObject);
 
-                var JoinListToViewbag = joinList.ToList();
 
-                ViewBag.JoinList = JoinListToViewbag;
+                var JoinListToViewbag = joinList.ToList();
+                ViewData["SearchStatus"] = search;
+                if (Value==null)
+                {
+                    ViewBag.JoinList = JoinListToViewbag;
+
+                }
+
+                else
+                {
+                    ViewBag.JoinList = joinLists(Value);
+
+                }
             }
 
 
@@ -98,6 +111,8 @@ namespace Lubricants.Controllers
 
             return View();
         }
+
+
 
         // POST: Add_item/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -161,7 +176,53 @@ namespace Lubricants.Controllers
 
             return View();
         }
+        public List<JoinCategoryAndItem> joinLists(string Value)
+        {
+            List<Add_item> ListOfItems = _context.Add_item.ToList();
+            List<Item_category> categorys = _context.Items_category.ToList();
+            List<JoinCategoryAndItem> joinList = new List<JoinCategoryAndItem>();
+            List<JoinCategoryAndItem> joinList1 = new List<JoinCategoryAndItem>();
 
+            var results = (from pd in categorys
+                           join od in ListOfItems on pd.IDT equals od.Category_id
+                           select new
+                           {
+                               pd.Category_name,
+                               od.Item_price,
+                               pd.ImageURL,
+                               od.Item_name,
+                               od.Quantity,
+                               od.id,
+
+                           }).ToList();
+
+            foreach (var item in results)
+            {
+                JoinCategoryAndItem JoinObject = new JoinCategoryAndItem();
+                JoinObject.Category_name = item.Category_name;
+                JoinObject.Item_price = item.Item_price;
+                JoinObject.ImageURL = item.ImageURL;
+                JoinObject.Quantity = item.Quantity;
+                JoinObject.Item_name = item.Item_name;
+                JoinObject.id = item.id;
+                joinList.Add(JoinObject);
+                var joinedToList = joinList.ToList();
+
+                var searchResults1 = joinedToList.Where(data => data.Item_name.Contains(Value) || data.Category_name.Contains(Value));
+                joinList1 = searchResults1.ToList();
+
+
+
+            }
+
+
+            return joinList1;
+
+
+
+
+
+        }
         // GET: Add_item/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
