@@ -98,7 +98,22 @@ namespace Lubricants.Controllers
 
                 else
                 {
-                    ViewBag.JoinList = joinLists(Value);
+
+                    //LETS COUNT THE RESULTS
+                    int counts = joinLists(Value).Count();
+                    if(counts>0){
+                        ViewBag.JoinList = joinLists(Value);
+                        ViewBag.ItemsCount = counts;
+                        ViewBag.SearchValue = Value;
+
+                    }
+                    else
+                    {
+                        ViewBag.JoinList = null;
+                        ViewBag.ItemsCount = 0;
+                        ViewBag.SearchValue = Value;
+
+                    }
 
                 }
             }
@@ -208,7 +223,7 @@ namespace Lubricants.Controllers
                 joinList.Add(JoinObject);
                 var joinedToList = joinList.ToList();
 
-                var searchResults1 = joinedToList.Where(data => data.Item_name.Contains(Value) || data.Category_name.Contains(Value));
+                var searchResults1 = joinedToList.Where(data => data.Item_name.Contains(Value.ToLower()) || data.Item_name.Contains(Value.ToUpper()) ||data.Category_name.Contains(Value.ToUpper()));
                 joinList1 = searchResults1.ToList();
 
 
@@ -223,6 +238,62 @@ namespace Lubricants.Controllers
 
 
         }
+        [BindProperty]
+        public Add_item Add_item1 { get; set; }
+        public async Task<IActionResult> Add_stock(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var add_item = await _context.Add_item.FindAsync(id);
+            var allFields = await _context.Add_item.FindAsync(id);
+            int initialQnty = allFields.Quantity;
+            ViewBag.init = initialQnty;
+            if (add_item == null)
+            {
+                return NotFound();
+            }
+            return View(add_item);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add_stock(int id, [Bind("id,Category_id,Item_name,Item_price,Quantity,DateTime")] Add_item add_item)
+        {
+            if (id != add_item.id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    int newUserQnty = add_item.Quantity;
+                    var allFields = await _context.Add_item.FindAsync(id);
+                    int initialQnty = allFields.Quantity;
+                    int newAvailable = newUserQnty + initialQnty;
+                    add_item.Quantity = newAvailable;
+                   
+                    //var BookFromDb = await _context.Add_item.FindAsync(id);
+                    var query = _context.Add_item.Where(x => x.id == id).Single();
+                    query.Quantity = newAvailable;
+                    _context.Update(query);
+                    await _context.SaveChangesAsync();
+                    ViewBag.InitialQuantity = initialQnty;
+                    ViewBag.NewQuantity = newAvailable;
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                        return NotFound();
+                   
+                }
+          
+            }
+            return View(add_item);
+        }
+
         // GET: Add_item/Edit/5
         public async Task<IActionResult> Edit(string id)
         {

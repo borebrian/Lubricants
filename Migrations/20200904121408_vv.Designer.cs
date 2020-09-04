@@ -4,14 +4,16 @@ using Fuela.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lubricants.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200904121408_vv")]
+    partial class vv
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,23 +84,6 @@ namespace Lubricants.Migrations
                     b.HasIndex("Item_categoryIDT");
 
                     b.ToTable("Items_category");
-                });
-
-            modelBuilder.Entity("Lubricants.Models.Tezt", b =>
-                {
-                    b.Property<int>("IDT")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("IDT");
-
-                    b.ToTable("Tezt");
                 });
 
             modelBuilder.Entity("Lubricants.Models.Add_item", b =>

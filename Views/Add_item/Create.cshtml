@@ -23,7 +23,7 @@
                 {
 
                     <div class="input-group md-form form-sm form-2 pl-0">
-                        <input class="form-control my-0 py-1 red-border"  type="text" name="Value" required placeholder="Search for items" aria-label="Search">
+                        <input class="form-control my-0 py-1 red-border"  type="text" name="Value" value="@ViewBag.SearchValue" required placeholder="Search for items" aria-label="Search">
                         <div class="input-group-append">
                             <span class="input-group-text red lighten-3" id="basic-text1">
                                 <button type="submit" class="btn btn-primary">Search &nbsp;<i class="fa fa-search" aria-hidden="true"></i></button>
@@ -78,13 +78,31 @@
                         <span asp-validation-for="DateTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <button type="submit" class="btn btn-primary">
+                            Submit &nbsp;  <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                        </button>
+                        <a  class="btn btn-primary" asp-action="Create" asp-controller="Item_category">
+                            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>&nbsp;  Add new category 
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <div class="col-lg-8">
+
+        @if (ViewBag.ItemsCount != null)
+        {
+            <div class="card card-1 " style="margin-bottom:10px;margin-top:10px;font-size:20px;">
+                <div class="card-header">
+                    <table class="table" style="border:none">
+                        <tr style="border:none">
+                            <td style="border:none"><i class="fa fa-cart-arrow-down" aria-hidden="true" style="font-size:30px;"></i>&nbsp;Items found:</td>
+                            <td style="border:none"><h1 class="badge badge-pill badge-secondary">@ViewBag.ItemsCount</h1></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>}
         @{
             if (ViewBag.JoinList != null)
             {
@@ -119,7 +137,7 @@
 
                                     <td>
                                         @item.Quantity
-                                        @item.id
+                                       
                                     </td>
                                 </tr>
                                 <tr>
@@ -134,8 +152,18 @@
                                     <td colspan="2">
                                         <div class="btn-group mr-2" role="group" aria-label="First group">
                                             <a class="btn btn-secondary text-light"><i class="fa fa-usd" aria-hidden="true"></i>&nbsp;Change price</a>
-                                            <a class="btn btn-primary text-light"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp;Restock</a>
-                                            <a class="btn btn-secondary text-light" asp-action="Delete" asp-controller="Add_item" asp-route-id="@item.id"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</a>
+                                            <a class="btn btn-primary text-light" asp-action="Add_stock" asp-controller="Add_item" asp-route-id=" @item.id"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp;Restock</a>
+
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="btn-group mr-2" role="group" aria-label="First group">
+
+                                            <a class="btn btn-secondary text-light" asp-action="Delete" asp-controller="Add_item" asp-route-id="3"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</a>
 
                                         </div>
                                     </td>
@@ -149,11 +177,11 @@
             }
             else
             {
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" style="margin-top:10px;">
                     <h4 class="alert-heading">No items found</h4>
-                    <p>-No item has been uploaded,Please upload item category first before uploading the items.</p> 
+                    <p>No items found please check the item name and try again!</p>
                     <hr>
-                    <p class="mb-0">NB:You can search an item by their names or category!</p>
+                    <p class="mb-0">NB:If you cannot find item by name you can search the item by their category names.</p>
                 </div>
 
             } }
