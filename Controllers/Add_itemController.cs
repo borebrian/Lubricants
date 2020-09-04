@@ -22,30 +22,8 @@ namespace Lubricants.Controllers
         // GET: Add_item
         public IActionResult Index()
         {
-            List<Add_item> items = _context.Add_item.ToList();
-            List<Item_category> categorys = _context.Items_category.ToList();
-            List<MultiplaeTableJOin> joinList = new List<MultiplaeTableJOin>();            var results = (from pd in categorys
-                           join od in items on pd.IDT equals od.Category_id
-                           
-
-                           select new 
-                           {
-                             pd.Category_name,
-                             od.Item_price
-                           }).ToList(); 
-
-            foreach(var item in results)
-            {
-                MultiplaeTableJOin obj = new MultiplaeTableJOin();
-                obj.Category_name = item.Category_name;
-                    obj.Item_price = item.Item_price;
-                joinList.Add(obj);
-
-                var combineList = joinList.ToList();
-
-                ViewBag.JoinList = combineList;
-            }
-            return View(joinList);
+           
+            return View();
 
         }
 
@@ -79,33 +57,46 @@ namespace Lubricants.Controllers
 
             var combineList = _context.Add_item.ToList();
             ViewBag.itemlist = combineList;
-            //ViewBag.Role = "1";
-           
-            //ViewBag.itemlist = results;
+            List<Add_item> ListOfItems = _context.Add_item.ToList();
+            List<Item_category> categorys = _context.Items_category.ToList();
+            List<JoinCategoryAndItem> joinList = new List<JoinCategoryAndItem>();
+
+            var results = (from pd in categorys
+                           join od in ListOfItems on pd.IDT equals od.Category_id
+                           select new
+                           {
+                               pd.Category_name,
+                               od.Item_price,
+                               pd.ImageURL,
+                               od.Item_name,
+                               od.Quantity,
+                               od.id,
+
+                           }).ToList();
+
+            foreach (var item in results)
+            {
+                JoinCategoryAndItem JoinObject = new JoinCategoryAndItem();
+                JoinObject.Category_name = item.Category_name;
+                JoinObject.Item_price = item.Item_price;
+                JoinObject.ImageURL = item.ImageURL;
+                JoinObject.Quantity = item.Quantity;
+                JoinObject.Item_name = item.Item_name;
+                JoinObject.id = item.id;
+                joinList.Add(JoinObject);
+
+                var JoinListToViewbag = joinList.ToList();
+
+                ViewBag.JoinList = JoinListToViewbag;
+            }
 
 
-            //List<Item_category> categoryList = _context.Items_category.ToList();
-            //List<Add_item> ItemList = _context.Add_item.ToList();
-
-
-            //ViewData["jointables"] = from pd in categoryList
-            //                         join od in ItemList on pd.IDT equals od.Category_id into table1 from od in table1.DefaultIfEmpty()
-
-            //                         select new MultiplaeTableJOin
-            //                         {
-            //                             item_category = pd,
-            //                             Add_item = od
-
-
-            //                         };
 
 
 
 
 
-
-
-            return View(ViewData["jointables"]);
+            return View();
         }
 
         // POST: Add_item/Create
@@ -127,6 +118,38 @@ namespace Lubricants.Controllers
 
 
 
+            List<Add_item> ListOfItems = _context.Add_item.ToList();
+            List<Item_category> categorys = _context.Items_category.ToList();
+            List<JoinCategoryAndItem> joinList = new List<JoinCategoryAndItem>();
+
+            var results = (from pd in categorys
+                           join od in ListOfItems on pd.IDT equals od.Category_id
+                           select new
+                           {
+                               pd.Category_name,
+                               od.Item_price,
+                               pd.ImageURL,
+                               od.Item_name,
+                               od.Quantity,
+                               od.id,
+                             
+                           }).ToList();
+
+            foreach (var item in results)
+            {
+                JoinCategoryAndItem JoinObject = new JoinCategoryAndItem();
+                JoinObject.Category_name = item.Category_name;
+                JoinObject.Item_price = item.Item_price;
+                JoinObject.ImageURL = item.ImageURL;
+                JoinObject.Quantity = item.Quantity;
+                JoinObject.Item_name = item.Item_name;
+                JoinObject.id = item.id;
+                joinList.Add(JoinObject);
+
+                var JoinListToViewbag = joinList.ToList();
+
+                ViewBag.JoinList = JoinListToViewbag;
+            }
 
 
 
@@ -136,8 +159,7 @@ namespace Lubricants.Controllers
 
 
 
-
-            return View(add_item);
+            return View();
         }
 
         // GET: Add_item/Edit/5
@@ -200,7 +222,7 @@ namespace Lubricants.Controllers
             }
 
             var add_item = await _context.Add_item
-                .FirstOrDefaultAsync(m => m.Category_id.ToString() == id);
+                .FirstOrDefaultAsync(m => m.id.ToString() == id);
             if (add_item == null)
             {
                 return NotFound();
