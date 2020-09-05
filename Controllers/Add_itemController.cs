@@ -48,14 +48,17 @@ namespace Lubricants.Controllers
         }
 
         // GET: Add_item/Create
-        public IActionResult Create(Item_category cateGory, [Optional] string Value)
+        public void BindCategoryName()
         {
-            string selectedValue = cateGory.Category_name;
+            //string selectedValue = cateGory.Category_name;
             List<Item_category> CategoryList = new List<Models.Item_category>();
             CategoryList = (from items in _context.Items_category select items).ToList();
             //idList.Insert(0, new Rental_Owners { National_id=0,Full_names})
             CategoryList.Insert(0, new Item_category { IDT = 0, Category_name = "--Select Category--" });
             ViewBag.categoryList = CategoryList;
+        }
+        public IActionResult Create(Item_category cateGory, [Optional] string Value)
+        {
 
             var combineList = _context.Add_item.ToList();
             ViewBag.itemlist = combineList;
@@ -123,6 +126,7 @@ namespace Lubricants.Controllers
 
 
 
+            BindCategoryName();
 
             return View();
         }
@@ -140,7 +144,7 @@ namespace Lubricants.Controllers
             {
                 _context.Add(add_item);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
             //var combineList = _context.Add_item.Include("category").ToList();
             //ViewBag.itemlist = combineList;
@@ -188,6 +192,7 @@ namespace Lubricants.Controllers
 
 
 
+            BindCategoryName();
 
             return View();
         }
@@ -251,6 +256,8 @@ namespace Lubricants.Controllers
             var allFields = await _context.Add_item.FindAsync(id);
             int initialQnty = allFields.Quantity;
             ViewBag.init = initialQnty;
+            var query = _context.Add_item.Where(x => x.id == id).Single();
+            ViewBag.itemName = query.Item_name;
             if (add_item == null)
             {
                 return NotFound();
@@ -295,12 +302,18 @@ namespace Lubricants.Controllers
         }
 
         // GET: Add_item/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+            //string selectedValue = cateGory.Category_name;
+            List<Item_category> CategoryList = new List<Models.Item_category>();
+            CategoryList = (from items in _context.Items_category select items).ToList();
+            //idList.Insert(0, new Rental_Owners { National_id=0,Full_names})
+            CategoryList.Insert(0, new Item_category { IDT = 0, Category_name = "--Select Category--" });
+            ViewBag.categoryList = CategoryList;
 
             var add_item = await _context.Add_item.FindAsync(id);
             if (add_item == null)
@@ -315,9 +328,9 @@ namespace Lubricants.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Category_id,Item_name,Item_price,Quantity,DateTime")] Add_item add_item)
+        public async Task<IActionResult> Edit(int id, [Bind("id,Category_id,Item_name,Item_price,Quantity,DateTime")] Add_item add_item)
         {
-            if (id != add_item.Category_id.ToString())
+            if (id != add_item.id)
             {
                 return NotFound();
             }
@@ -340,7 +353,7 @@ namespace Lubricants.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             return View(add_item);
         }
