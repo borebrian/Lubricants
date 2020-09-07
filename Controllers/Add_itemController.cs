@@ -29,6 +29,84 @@ namespace Lubricants.Controllers
 
         }
 
+        public IActionResult SubmitStock()
+        {
+            List<Add_item> ListOfItems = _context.Add_item.ToList();
+            List<Item_category> categorys = _context.Items_category.ToList();
+            List<JoinCategoryAndItem> joinList = new List<JoinCategoryAndItem>();
+
+            var results = (from pd in categorys
+                           join od in ListOfItems on pd.IDT equals od.Category_id where od.Quantity > 0
+                           select new
+                           {
+                               pd.Category_name,
+                               od.Item_price,
+                               pd.ImageURL,
+                               od.Item_name,
+                               od.Quantity,
+                               od.id,
+
+                           }).ToList();
+
+            foreach (var item in results)
+            {
+                JoinCategoryAndItem JoinObject = new JoinCategoryAndItem();
+                JoinObject.Category_name = item.Category_name;
+                JoinObject.Item_price = item.Item_price;
+                JoinObject.ImageURL = item.ImageURL;
+                JoinObject.Quantity = item.Quantity;
+                JoinObject.Item_name = item.Item_name;
+                JoinObject.id = item.id;
+                joinList.Add(JoinObject);
+
+
+                var JoinListToViewbag = joinList.ToList();
+                ViewData["SearchStatus"] = search;
+                
+                    ViewBag.JoinList = JoinListToViewbag;
+
+               
+
+            }
+            return View();
+
+        }
+
+        // POST: Add_item/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SubmitStock(int id, [Bind("id,Category_id,Item_name,Item_price,Quantity,DateTime")] Add_item add_item)
+        {
+            if (id != add_item.id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(add_item);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!Add_itemExists(add_item.Category_id.ToString()))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Create));
+            }
+            return View(add_item);
+        }
+
         // GET: Add_item/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -300,6 +378,67 @@ namespace Lubricants.Controllers
             }
             return View(add_item);
         }
+
+
+
+        public async Task<IActionResult> Change_price(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var add_item = await _context.Add_item.FindAsync(id);
+            var allFields = await _context.Add_item.FindAsync(id);
+            int initialQnty = allFields.Quantity;
+            ViewBag.init = initialQnty;
+            var query = _context.Add_item.Where(x => x.id == id).Single();
+            ViewBag.itemName = query.Item_name;
+            if (add_item == null)
+            {
+                return NotFound();
+            }
+            return View(add_item);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Change_price(int id, [Bind("id,Category_id,Item_name,Item_price,Quantity,DateTime")] Add_item add_item)
+        {
+            if (id != add_item.id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    int newUserQnty = add_item.Quantity;
+                    var allFields = await _context.Add_item.FindAsync(id);
+                    float initialQnty = allFields.Item_price;
+                    //int newAvailable = newUserQnty + initialQnty;
+                    //add_item.Quantity = newAvailable;
+                    //var BookFromDb = await _context.Add_item.FindAsync(id);
+                    var query = _context.Add_item.Where(x => x.id == id).Single();
+                    query.Item_price = add_item.Item_price;
+                    _context.Update(query);
+                    await _context.SaveChangesAsync();
+                    ViewBag.InitialQuantity = initialQnty;
+                    ViewBag.NewQuantity = add_item.Item_price;
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    return NotFound();
+
+                }
+
+            }
+            return View(add_item);
+        }
+
+
+
+
 
         // GET: Add_item/Edit/5
         public async Task<IActionResult> Edit(int? id)

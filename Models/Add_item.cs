@@ -34,7 +34,7 @@ namespace Lubricants.Models
         [Required]
         public int Quantity { get; set; }
         
-        [Display(Name = "Date:", Prompt = "Current date")]
+
         [Required]
         [DataType(DataType.Date)]
         public string DateTime { get; set; }

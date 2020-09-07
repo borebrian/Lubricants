@@ -6,14 +6,16 @@
     <title>@ViewData["Title"] - Lubricants</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/font-awesome-4.7.0_1/font-awesome-4.7.0/css/font-awesome.min.css" asp-append-version="true">
-   
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/cards.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #68213A;">
+    <header class="bg-dark">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-dark  box-shadow mb-3" style="border:none">
 
-            <div class="container">
+            <div class="container bg-dark" style="border:none">
                 <img src="/SystemImage/logo.png" class="logo1" alt="" />
 
                 <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">&nbsp;Lubes</a>
@@ -21,13 +23,13 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars" aria-hidden="true"></i>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse bg-dark">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> &nbsp;Fuel module</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Administration" asp-action="Dashboard"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> &nbsp;Fuel module</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home" aria-hidden="true"></i> &nbsp;Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Administration" asp-action="Dashboard"><i class="fa fa-home" aria-hidden="true"></i> &nbsp;Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Item_category" asp-action="Create"><i class="fa fa-sitemap" aria-hidden="true"></i> &nbsp;Add category</a>
@@ -40,18 +42,16 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container-fluid " style="border:none">
+       
             @RenderBody()
-        </main>
+      
     </div>
 
-    <footer class="border-top footer text-muted card-1">
-        <div class="card card-1">
-            <div class="card-body text-center">
+    <footer class="footer  bg-dark text-center text-light" style="border:none">
+      
                 &copy; @DateTime.Now.Year - Lubricants - <a asp-area="" asp-controller="Home" asp-action="Privacy">Fuela</a>
-            </div>
-            </div>
+            
 </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

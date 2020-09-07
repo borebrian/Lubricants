@@ -5,8 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Administration\Log_in.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\images\" />
-    <Folder Include="wwwroot\Items\Image\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Administration\Log_in.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

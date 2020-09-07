@@ -6,44 +6,32 @@
 }
 
 
-<h1>Item details</h1>
-<div class="card card-1">
-    <div class="card-body">
+@*<h1>Item details</h1>*@
+<div class="card card-1 bg-light text-dark">
+    <div class="card-body ">
         <div class="row">
             <div class="col-lg-12">
 
 
                 <h4>
-                    <img src="/SystemImage/addcategory.png" class="logo1" alt="" /> &nbsp;Available items
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> &nbsp;Availlable items
 
                 </h4>
             </div>
-            <div class="col-lg-12" style="margin-top:10px;">
-                @using (Html.BeginForm("Create", "Add_item", FormMethod.Get))
-                {
-
-                    <div class="input-group md-form form-sm form-2 pl-0">
-                        <input class="form-control my-0 py-1 red-border"  type="text" name="Value" value="@ViewBag.SearchValue" required placeholder="Search for items" aria-label="Search">
-                        <div class="input-group-append">
-                            <span class="input-group-text red lighten-3" id="basic-text1">
-                                <button type="submit" class="btn btn-primary">Search &nbsp;<i class="fa fa-search" aria-hidden="true"></i></button>
-                                
-                            </span>
-                        </div>
-                    </div>
-                }
-                </div>
+           
         </div>
     </div>
 </div>
-<hr />
+<br />
+@*<hr />*@
 <div class="row">
     <div class="col-md-4">
-        <div class="card card-1">
-            <div class="card-header text-left" style="background-color:#68213A;color:white">
-                <img src="/SystemImage/logo.png" alt="" class="rounded-circle" style="height:50px;width:50px;border:2px white solid" /> &nbsp; Add new items
+        <div class="card card-1 bg-light " style="border:none">
+            <div class="card-header text-left bg-custome text-light " style="        background-color: #68213A
+">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i> &nbsp; Add new items
             </div>
-            <div class="card-body">
+            <div class="card-body text-dark">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -90,110 +78,132 @@
         </div>
     </div>
     <div class="col-lg-8">
+        <div class="card card-1 " style="margin-bottom:10px;margin-top:10px;border:none;">
 
-        @if (ViewBag.ItemsCount != null)
-        {
-            <div class="card card-1 " style="margin-bottom:10px;margin-top:10px;font-size:20px;">
-                <div class="card-header">
-                    <table class="table" style="border:none">
-                        <tr style="border:none">
-                            <td style="border:none"><i class="fa fa-cart-arrow-down" aria-hidden="true" style="font-size:30px;"></i>&nbsp;Items found:</td>
-                            <td style="border:none"><h1 class="badge badge-pill badge-secondary">@ViewBag.ItemsCount</h1></td>
-                        </tr>
-                    </table>
+            <div class="card-header text-left bg-light">
+                <div class="col-lg-12" style="margin-top:10px;">
+                    @using (Html.BeginForm("Create", "Add_item", FormMethod.Get))
+                    {
+
+                        <div class="input-group mb-3">
+                            <input class="form-control my-0 py-1 red-border" type="text" name="Value" value="@ViewBag.SearchValue" required placeholder="Search for items" aria-label="Search">
+                            <div class="input-group-append">
+
+                                <button type="submit" class="btn btn-dark">Search &nbsp;<i class="fa fa-search" aria-hidden="true"></i></button>
+
+
+                            </div>
+                        </div>
+                    }
                 </div>
-            </div>}
-        @{
-            if (ViewBag.JoinList != null)
-            {
-                @foreach (var item in ViewBag.JoinList)
+
+            </div>
+            </div>
+
+                @if (ViewBag.ItemsCount != null)
                 {
-                    <div class="card card-1" style="margin-bottom:10px;margin-top:10px">
-
-                        <div class="card-header text-left" style="background-color:#68213A;color:white">
-                            <img src="/@item.ImageURL" alt="" class="rounded-circle" style="height:50px;width:50px;border:2px white solid" /> &nbsp;  @item.Category_name
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-
-                                <tr>
-                                    <td><i class="fa fa-shopping-cart" aria-hidden="true"></i> &nbsp;  Item name</td>
-                                    <td>
-                                        @item.Item_name
-                                    </td>
-                                </tr>
-                                @*<tr>
-                                    <td><i class="fa fa-circle" aria-hidden="true"></i> &nbsp; Item category</td>
-
-                                    <td>
-                                        @item.Category_name
-
-                                    </td>
-                                </tr>*@
-                                <tr>
-
-                                    <td><i class="fa fa-suitcase" aria-hidden="true"></i> &nbsp;Current Quantity</td>
-
-
-                                    <td>
-                                        @item.Quantity
-                                       
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fa fa-usd" aria-hidden="true"></i> &nbsp;Item price</td>
-
-                                    <td>
-                                        Ksh.&nbsp; @item.Item_price
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <div class="btn-group mr-2" role="group" aria-label="First group">
-                                            <a class="btn btn-secondary text-light"><i class="fa fa-usd" aria-hidden="true"></i>&nbsp;Change price</a>
-                                            <a class="btn btn-primary text-light" asp-action="Add_stock" asp-controller="Add_item" asp-route-id=" @item.id"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp;Restock</a>
-
-
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="2">
-                                        <div class="btn-group mr-2" role="group" aria-label="First group">
-
-                                            <a class="btn btn-secondary text-light" asp-action="Delete" asp-controller="Add_item" asp-route-id="3"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</a>   
-                                            <a class="btn btn-primary text-light" asp-action="Edit" asp-controller="Add_item" asp-route-id="@item.id"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;Edit</a>
-
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </table>
-
-                        </div>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Items found </strong><h1 class="badge badge-pill badge-secondary">
+                            @ViewBag.ItemsCount
+                        </h1>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                }
-            }
-            else
-            {
-                <div class="alert alert-danger" role="alert" style="margin-top:10px;">
-                    <h4 class="alert-heading">No items found</h4>
-                    <p>No items found please check the item name and try again!</p>
-                    <hr>
-                    <p class="mb-0">NB:If you cannot find item by name you can search the item by their category names.</p>
-                </div>
 
-            } }
-    </div>
+                }
+
+                @{
+                    if (ViewBag.JoinList != null)
+                    {
+                        @foreach (var item in ViewBag.JoinList)
+                        {
+                            <div class="card card-1 " style="margin-bottom:10px;margin-top:10px;border:none;">
+
+                                <div class="card-header text-left bg-dark text-light">
+                                    <img src="/@item.ImageURL" alt="" class="rounded-circle" style="height:50px;width:50px;border:2px white solid" /> &nbsp;&nbsp;  @item.Category_name
+                                </div>
+                                <div class="card-body text-light">
+                                    <table class="table table-light table-striped ">
+
+                                        <tr>
+                                            <td><i class="fa fa-shopping-cart" aria-hidden="true"></i> &nbsp;  Item name</td>
+                                            <td>
+                                                <span class="badge badge-pill badge-dark">@item.Item_name</span> 
+                                            </td>
+                                        </tr>
+                                        @*<tr>
+                                            <td><i class="fa fa-circle" aria-hidden="true"></i> &nbsp; Item category</td>
+
+                                            <td>
+                                                @item.Category_name
+
+                                            </td>
+                                        </tr>*@
+                                        <tr>
+
+                                            <td><i class="fa fa-suitcase" aria-hidden="true"></i> &nbsp;Current Quantity</td>
+
+
+                                            <td>
+                                                <span class="badge badge-pill badge-dark"> @item.Quantity</span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="fa fa-usd" aria-hidden="true"></i> &nbsp;Item price</td>
+
+                                            <td>
+                                                <span class="badge badge-pill badge-dark">  Ksh.&nbsp; @item.Item_price</span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="btn-group-sm" role="group" aria-label="First group">
+                                                    <a class="btn btn-dark text-light" asp-action="Edit" asp-controller="Add_item" asp-route-id="@item.id"><i class="fa fa-usd" aria-hidden="true"></i>&nbsp;Change price</a>
+                                                    <a class="btn btn-dark text-light" asp-action="Add_stock" asp-controller="Add_item" asp-route-id=" @item.id"><i class="fa fa-cart-plus" aria-hidden="true"></i>&nbsp;Restock</a>
+
+
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="btn-group-sm" role="group" aria-label="First group">
+
+                                                    <a class="btn btn-primary text-light" asp-action="Delete" asp-controller="Add_item" asp-route-id="3"><i class="fa fa-trash" aria-hidden="true"></i>&nbsp;Remove</a>
+                                                   
+
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger" role="alert" style="margin-top:10px;">
+                            <h4 class="alert-heading">No items found</h4>
+                            <p>No items found please check the item name and try again!</p>
+                            <hr>
+                            <p class="mb-0">NB:If you cannot find item by name you can search the item by their category names.</p>
+                        </div>
+
+                    } }
+            </div>
         </div>
 
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

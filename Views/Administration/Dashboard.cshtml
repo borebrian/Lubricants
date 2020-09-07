@@ -1,0 +1,106 @@
+﻿
+        <div class="scrolling-wrapper">
+            @{
+                if (ViewBag.JoinList != null)
+                {
+                    @foreach (var item in ViewBag.JoinList)
+                    {
+                        
+                        <div class="card card-2">
+                            <div class="card-header text-left customeheader ">
+                                <h6 class="card-title"> <img src="/@item.ImageURL" alt="" class="rounded-circle" style="height:30px;width:30px;border:2px white solid" /> &nbsp;@item.Item_name</h6>
+                            </div>
+                            <div class="card-body customebody " style="        font-size: 20px;
+        color: #68213A;
+">
+                                <div class="row">
+                                    <div class="col-lg-6 col-6 text-left">
+                                        <span class="badge badge-pill badge-dark">
+                                            Ksh. &nbsp; @item.Item_price
+                                        </span>
+                                    </div>
+                                    <div class="col-lg-6 col-6 text-right">
+
+
+                                        <span class="badge badge-pill badge-dark"> <i class="fa fa-cart-arrow-down" aria-hidden="true"></i> &nbsp; @item.Quantity</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="card bg-success text-white mb-4">
+                                <div class="card-body">Success Card</div>
+                                <div class="card-footer d-flex align-items-center justify-content-between">
+                                    <a class="small text-white stretched-link" href="#">View Details</a>
+                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                </div>
+                            </div>*@
+                    }}
+            }
+        </div>
+  
+<div class="row" style="margin-top:15px;">
+
+   
+    <div class="col-lg-4">
+
+
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-left">
+                            <p><img class="img-fluid" src="~/Items/Image/items.png" alt="card image"></p>
+                            <h4 class="card-title">Total items</h4>
+                            <p class="card-text"> @ViewBag.Itemcount</p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4">
+
+
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-left">
+                            <p><img class="img-fluid" src="~/Items/Image/oils.jpg" alt="card image"></p>
+                            <h4 class="card-title">Item category</h4>
+                            <p class="card-text">@ViewBag.categoryCount</p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4">
+
+
+        <div class="image-flip">
+            <div class="mainflip flip-0">
+                <div class="frontside">
+                    <div class="card">
+                        <div class="card-body text-left">
+                            <p><img class="img-fluid" src="~/Items/Image/sysuser.jpg" alt="card image"></p>
+                            <h4 class="card-title">System users</h4>
+                            <p class="card-text">67</p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
