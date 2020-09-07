@@ -31,13 +31,15 @@ namespace Lubricants.Controllers
         }
         public void bindSubmitItems()
         {
-            List<Add_item> ListOfItems = _context.Add_item.ToList();
+            string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+            //ViewBag.d = currentDate;
+            List <Add_item> ListOfItems = _context.Add_item.ToList();
             List<Item_category> categorys = _context.Items_category.ToList();
             List<JoinCategoryAndItem> joinList = new List<JoinCategoryAndItem>();
 
             var results = (from pd in categorys
                            join od in ListOfItems on pd.IDT equals od.Category_id
-                           where od.Quantity > 0 && od.DateTime != DateTime.Now.ToString()
+                           where  od.DateTime != currentDate && od.Quantity>0
                            select new
                            {
                                pd.Category_name,
@@ -90,7 +92,7 @@ namespace Lubricants.Controllers
             var query = _context.Add_item.Where(x => x.id == id).Single();
             //LETS UPDATE VALUES IN DATABASE
             query.Quantity = newQuantity;
-            query.DateTime = DateTime.Now.ToString();
+            query.DateTime = DateTime.Now.ToString("yyyy-MM-dd");
             _context.Update(query);
             await _context.SaveChangesAsync();
 
@@ -112,9 +114,9 @@ namespace Lubricants.Controllers
             };
             _context.Add(submitted);
             _context.SaveChanges();
-            ViewBag.StockUpdateStatus = query.Item_name + " has been submitted successfully! \\n Initial stock: " + database_stock + "\n Item sold: " + itemSold + "\n New stock: " + Quantity;
+            ViewBag.StockUpdateStatus = query.Item_name + " has been submitted successfully! \n Initial stock: " + database_stock + "\n Item sold: " + itemSold + "\n New stock: " + Quantity;
             bindSubmitItems();
-            bindSubmitItems();
+          
 
             return View();
         }
