@@ -23,7 +23,7 @@ namespace Fuela.DBContext
         public DbSet<Lubricants.Models.Add_item> Add_item { get; set; }
 
 
-        public DbSet<Lubricants.Models.Tezt> Tezt { get; set; }
+        public DbSet<Lubricants.Models.Submited_stock> Submited_stock { get; set; }
       
 
 

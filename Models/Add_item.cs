@@ -36,7 +36,7 @@ namespace Lubricants.Models
         
 
         [Required]
-        [DataType(DataType.Date)]
+        //[DataType(DataType.Date)]
         public string DateTime { get; set; }
 
         [ForeignKey("IDT")]

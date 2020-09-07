@@ -19,7 +19,7 @@ namespace Lubricants.Models
         [Required]
         public float Cash_made { get; set; }
         [Required]
-        public int User_id { get; set; }
+        public string User_id { get; set; }
 
     }
 }

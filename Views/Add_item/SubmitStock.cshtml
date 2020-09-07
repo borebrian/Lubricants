@@ -16,6 +16,7 @@
         </div>
     </div>
 </div>
+
 <div class="row">
     @foreach (var item in ViewBag.JoinList)
     {
@@ -26,8 +27,7 @@
                     <i class="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;&nbsp;|&nbsp;&nbsp;Please count &nbsp;@item.Item_name &nbsp; and enter the results below:
                 </div>
                 <div class="card-body">
-                    @using (Html.BeginForm("SubmitStock", "Add_itemController", FormMethod.Post))
-                    {
+                    <form method="post" enctype="multipart/form-data" asp-controller="Add_item" asp-action="SubmitStock">
                         <div class="row">
                             <div class="col-lg-2 text-center">
                                 <img src="/@item.ImageURL" alt="" class="rounded-circle" style="height:50px;width:50px;border:2px white solid" />
@@ -35,15 +35,18 @@
                             <div class="col-lg-4 text-center" style="margin-top:10px;">
 
                                 <input name="Quantity" required placeholder="Enter stock count here" class="form-control" />
-                                </div>
+                                @* HIDDEN INPUTS CONTAINING ID *@
 
-                                <div class="col-lg-4  text-center" style="margin-top:10px;">
+                                <input required placeholder="Enter stock count here" name="id" value="@item.id" class="form-control" />
+                            </div>
 
-                                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Submit &nbsp; <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-                                </div>
+                            <div class="col-lg-4  text-center" style="margin-top:10px;">
+
+                                <button type="submit" class="btn btn-primary">Submit &nbsp; <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                             </div>
-                                }
-                            </div>
+                        </div>
+                       </form>
+                </div>
             </div>
         </div>
     }

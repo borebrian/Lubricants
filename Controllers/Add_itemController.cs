@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Fuela.DBContext;
 using Lubricants.Models;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Http;
 
 namespace Lubricants.Controllers
 {
@@ -28,15 +29,15 @@ namespace Lubricants.Controllers
             return View();
 
         }
-
-        public IActionResult SubmitStock()
+        public void bindSubmitItems()
         {
             List<Add_item> ListOfItems = _context.Add_item.ToList();
             List<Item_category> categorys = _context.Items_category.ToList();
             List<JoinCategoryAndItem> joinList = new List<JoinCategoryAndItem>();
 
             var results = (from pd in categorys
-                           join od in ListOfItems on pd.IDT equals od.Category_id where od.Quantity > 0
+                           join od in ListOfItems on pd.IDT equals od.Category_id
+                           where od.Quantity > 0 && od.DateTime != DateTime.Now.ToString()
                            select new
                            {
                                pd.Category_name,
@@ -62,51 +63,66 @@ namespace Lubricants.Controllers
 
                 var JoinListToViewbag = joinList.ToList();
                 ViewData["SearchStatus"] = search;
-                
-                    ViewBag.JoinList = JoinListToViewbag;
 
-               
+                ViewBag.JoinList = JoinListToViewbag;
 
-            }
+            } 
+        }
+            public IActionResult SubmitStock()
+        {
+            bindSubmitItems();
             return View();
 
         }
 
-        // POST: Add_item/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SubmitStock(int id, [Bind("id,Category_id,Item_name,Item_price,Quantity,DateTime")] Add_item add_item)
+        public async Task<IActionResult> SubmitStock( int id, int Quantity)
         {
-            if (id != add_item.id)
-            {
-                return NotFound();
-            }
+            int closing_stock = Quantity;
+            //var combineList = _context.Add_item.Where(x => x.id == id);
+            var allFields = await _context.Add_item.FindAsync(id);
+            int database_stock = allFields.Quantity;
+            int itemSold = database_stock - closing_stock;
+            int newQuantity = Quantity;
 
-            if (ModelState.IsValid)
+            AddSession(itemSold.ToString(), itemSold.ToString());
+            var query = _context.Add_item.Where(x => x.id == id).Single();
+            //LETS UPDATE VALUES IN DATABASE
+            query.Quantity = newQuantity;
+            query.DateTime = DateTime.Now.ToString();
+            _context.Update(query);
+            await _context.SaveChangesAsync();
+
+
+            //LETS CALCULATE CASH MADE
+
+            float price = query.Item_price;
+            float cashMade = price * itemSold;
+            Guid g = Guid.NewGuid();
+            //LETS ADD SUBMITTED STOCK TO THEIR RESPECTIVE TABLES
+            var submitted = new Submited_stock()
             {
-                try
-                {
-                    _context.Update(add_item);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!Add_itemExists(add_item.Category_id.ToString()))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Create));
-            }
-            return View(add_item);
+                item_id = id,
+                DateTime = DateTime.Now.ToString(),
+                item_sold = itemSold,
+                Cash_made = cashMade,
+                User_id = g.ToString()
+
+            };
+            _context.Add(submitted);
+            _context.SaveChanges();
+            ViewBag.StockUpdateStatus = query.Item_name + " has been submitted successfully! \\n Initial stock: " + database_stock + "\n Item sold: " + itemSold + "\n New stock: " + Quantity;
+            bindSubmitItems();
+            bindSubmitItems();
+
+            return View();
         }
 
+        public void AddSession(string SessionName,string SessionData)
+        {
+            HttpContext.Session.SetString(SessionName, SessionData.ToString());
+        }
         // GET: Add_item/Details/5
         public async Task<IActionResult> Details(string id)
         {

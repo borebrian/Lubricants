@@ -4,14 +4,16 @@ using Fuela.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lubricants.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200907210713_addedSubmitTable")]
+    partial class addedSubmitTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,33 +86,21 @@ namespace Lubricants.Migrations
                     b.ToTable("Items_category");
                 });
 
-            modelBuilder.Entity("Lubricants.Models.Submited_stock", b =>
+            modelBuilder.Entity("Lubricants.Models.Tezt", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("IDT")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float>("Cash_made")
-                        .HasColumnType("real");
-
-                    b.Property<string>("DateTime")
+                    b.Property<string>("name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("User_id")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("IDT");
 
-                    b.Property<int>("item_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("item_sold")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Submited_stock");
+                    b.ToTable("Tezt");
                 });
 
             modelBuilder.Entity("Lubricants.Models.Add_item", b =>
