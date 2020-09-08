@@ -199,7 +199,13 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 
+.bg-green {
+    background-color: #1ABC9C;
+}
 
+.tx-green {
+    background-color: #1ABC9C;
+}
 
 .bg-primary {
     background-color: #1b6ec2;
@@ -243,7 +249,7 @@ a {
 
 
 .customeInput1 {
-    border: 1px solid #68213A;
+    border: 1px solid  #1ABC9C;
     border-radius: 15px;
     box-shadow: -webkit-box-shadow: 0px -1px 17px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px -1px 17px 0px rgba(0,0,0,0.75);
@@ -274,13 +280,13 @@ a {
 }
 .btn-primary {
     color: #fff;
-    background-color: #68213A;
+    background-color: #1ABC9C;
     border: none;
     /*border-color: #1861ac;*/
 }
     .btn-primary:hover {
         color: #fff;
-        background-color: #68213A;
+        background-color: #1ABC9C;
         border: none;
         border-color: #1861ac;
     }

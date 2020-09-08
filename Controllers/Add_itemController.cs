@@ -9,6 +9,7 @@ using Fuela.DBContext;
 using Lubricants.Models;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis;
 
 namespace Lubricants.Controllers
 {
@@ -27,6 +28,22 @@ namespace Lubricants.Controllers
         {
            
             return View();
+
+        } 
+        
+        public void ConfirmStockSubmit(int id, int Quantity,String Item_name)
+        {
+            var query = _context.Add_item.Where(x => x.id == id).Single();
+            ViewBag.InitialQuantity = query.Quantity;
+            ViewBag.CurrentQuantity = Quantity;
+            ViewBag.price = Quantity;
+            float price = query.Item_price;
+            int sold = int.Parse(query.Quantity.ToString()) - Quantity;
+            float cashMade = price * sold;
+            ViewBag.ChashMade = cashMade;
+            //ViewBag.EnteredQuantity = Item_name;
+         
+
 
         }
         public void bindSubmitItems()
@@ -73,50 +90,72 @@ namespace Lubricants.Controllers
             public IActionResult SubmitStock()
         {
             bindSubmitItems();
+            ViewBag.AllowPopup = "2";
+
             return View();
 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SubmitStock( int id, int Quantity)
+        public IActionResult SubmitStock(int id, int Quantity, [Optional] string newItem)
         {
-            int closing_stock = Quantity;
-            //var combineList = _context.Add_item.Where(x => x.id == id);
-            var allFields = await _context.Add_item.FindAsync(id);
-            int database_stock = allFields.Quantity;
-            int itemSold = database_stock - closing_stock;
-            int newQuantity = Quantity;
 
-            AddSession(itemSold.ToString(), itemSold.ToString());
             var query = _context.Add_item.Where(x => x.id == id).Single();
-            //LETS UPDATE VALUES IN DATABASE
-            query.Quantity = newQuantity;
-            query.DateTime = DateTime.Now.ToString("yyyy-MM-dd");
-            _context.Update(query);
-            await _context.SaveChangesAsync();
-
-
-            //LETS CALCULATE CASH MADE
-
+            ViewBag.InitialQuantity = query.Quantity;
+            ViewBag.CurrentQuantity = Quantity;
             float price = query.Item_price;
-            float cashMade = price * itemSold;
-            Guid g = Guid.NewGuid();
-            //LETS ADD SUBMITTED STOCK TO THEIR RESPECTIVE TABLES
-            var submitted = new Submited_stock()
-            {
-                item_id = id,
-                DateTime = DateTime.Now.ToString(),
-                item_sold = itemSold,
-                Cash_made = cashMade,
-                User_id = g.ToString()
+            int sold = int.Parse(query.Quantity.ToString()) - Quantity;
+            float cashMade = price * sold;
+            ViewBag.ChashMade = cashMade;
+            ViewBag.price = price;
+            ViewBag.Item_name = query.Item_name;
 
-            };
-            _context.Add(submitted);
-            _context.SaveChanges();
-            ViewBag.StockUpdateStatus = query.Item_name + " has been submitted successfully! \n Initial stock: " + database_stock + "\n Item sold: " + itemSold + "\n New stock: " + Quantity;
+            ViewBag.sold = sold;
+            ViewBag.EnteredQuantity = Quantity;
+           
+            ViewBag.AllowPopup = "1";
             bindSubmitItems();
-          
+
+
+            //INSERTION CODE
+
+            //int closing_stock = Quantity;
+            ////var combineList = _context.Add_item.Where(x => x.id == id);
+            //var allFields = await _context.Add_item.FindAsync(id);
+            //int database_stock = allFields.Quantity;
+            //int itemSold = database_stock - closing_stock;
+            //int newQuantity = Quantity;
+
+            //AddSession(itemSold.ToString(), itemSold.ToString());
+            //var query = _context.Add_item.Where(x => x.id == id).Single();
+            ////LETS UPDATE VALUES IN DATABASE
+            //query.Quantity = newQuantity;
+            //query.DateTime = DateTime.Now.ToString("yyyy-MM-dd");
+            //_context.Update(query);
+            //await _context.SaveChangesAsync();
+
+
+            ////LETS CALCULATE CASH MADE
+
+            //float price = query.Item_price;
+            //float cashMade = price * itemSold;
+            //Guid g = Guid.NewGuid();
+            ////LETS ADD SUBMITTED STOCK TO THEIR RESPECTIVE TABLES
+            //var submitted = new Submited_stock()
+            //{
+            //    item_id = id,
+            //    DateTime = DateTime.Now.ToString(),
+            //    item_sold = itemSold,
+            //    Cash_made = cashMade,
+            //    User_id = g.ToString()
+
+            //};
+            //_context.Add(submitted);
+            //_context.SaveChanges();
+            //ViewBag.StockUpdateStatus = query.Item_name + " has been submitted successfully! \n Initial stock: " + database_stock + "\n Item sold: " + itemSold + "\n New stock: " + Quantity;
+            //bindSubmitItems();
+
 
             return View();
         }

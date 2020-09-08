@@ -36,6 +36,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Add_item" asp-action="create"><i class="fa fa-cart-plus" aria-hidden="true"></i> &nbsp;Add item</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Add_item" asp-action="SubmitStock"><i class="fa fa-check" aria-hidden="true"></i> &nbsp;Close stock</a>
                         </li>
                     </ul>
                 </div>
@@ -58,5 +61,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
     @RenderSection("Scripts1", required: false)
+    @RenderSection("scripts3", required: false)
 </body>
 </html>
