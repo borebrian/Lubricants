@@ -10,10 +10,8 @@ namespace Lubricants.Models
     {
         [Key]
         [Required]
-
         [Display(Name = "ID", Prompt = "ID")]
         public int IDT { get; set; }
-
         [Display(Name = "Category name:", Prompt = "Category name")]
         [Required]
         [MaxLength(50)]

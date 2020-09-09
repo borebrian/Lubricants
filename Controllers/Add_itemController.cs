@@ -38,11 +38,13 @@ namespace Lubricants.Controllers
             //ViewBag.d = currentDate;
             List<Add_item> ListOfItems = _context.Add_item.ToList();
             List<Item_category> categorys = _context.Items_category.ToList();
-            List<JoinCategoryAndItem> joinList = new List<JoinCategoryAndItem>();
+            //List<JoinCategoryAndItem> joinList = new List<JoinCategoryAndItem>();
+            List<Stock_summary> joinList = new List<Stock_summary>();
+            List<Submited_stock> Submitted = _context.Submited_stock.ToList();
 
             var results = (from pd in categorys
                            join od in ListOfItems on pd.IDT equals od.Category_id
-                           where od.DateTime != currentDate && od.Quantity > 0
+                           join sd in Submitted on od.id equals sd.item_id 
                            select new
                            {
                                pd.Category_name,
@@ -51,24 +53,26 @@ namespace Lubricants.Controllers
                                od.Item_name,
                                od.Quantity,
                                od.id,
+                               sd.Cash_made,
+                               sd.item_sold,
+                               sd.User_id,
 
                            }).ToList();
 
             foreach (var item in results)
             {
-                JoinCategoryAndItem JoinObject = new JoinCategoryAndItem();
+                Stock_summary JoinObject = new Stock_summary();
                 JoinObject.Category_name = item.Category_name;
                 JoinObject.Item_price = item.Item_price;
                 JoinObject.ImageURL = item.ImageURL;
                 JoinObject.Quantity = item.Quantity;
                 JoinObject.Item_name = item.Item_name;
                 JoinObject.id = item.id;
+                JoinObject.item_sold = item.item_sold;
+                JoinObject.Cash_made = item.Cash_made;
+                JoinObject.User_id = item.User_id;
                 joinList.Add(JoinObject);
-
-
                 var JoinListToViewbag = joinList.ToList();
-                ViewData["SearchStatus"] = search;
-
                 ViewBag.JoinList = JoinListToViewbag;
 
             }
@@ -202,7 +206,7 @@ namespace Lubricants.Controllers
                 var submitted = new Submited_stock()
                 {
                     item_id = id,
-                    DateTime = DateTime.Now.ToString(),
+                    DateTime = DateTime.Now.ToString("yyyy-MM-dd"),
                     item_sold = itemSold,
                     Cash_made = cashMade,
                     User_id = g.ToString()

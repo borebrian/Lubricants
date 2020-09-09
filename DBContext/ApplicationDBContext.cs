@@ -24,10 +24,14 @@ namespace Fuela.DBContext
 
 
         public DbSet<Lubricants.Models.Submited_stock> Submited_stock { get; set; }
-      
 
 
-      
+        public DbSet<Lubricants.Models.Stock_summary> Stock_summary { get; set; }
+        public DbSet<Lubricants.Models.c_Users> c_Users { get; set; }
+
+
+
+
 
 
 

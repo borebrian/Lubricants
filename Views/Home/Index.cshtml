@@ -1,8 +1,140 @@
-﻿@{
+﻿@model Lubricants.Models.c_Users
+@{
     ViewData["Title"] = "Home Page";
 }
+<div style="margin-top:20px;">
+  
+        <div id="layoutAuthentication">
+            <div id="layoutAuthentication_content">
+                <main>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-5">
+                                @using (Html.BeginForm("LoginUser", "Home", FormMethod.Post, new { role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                        <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label class="small mb-1" for="inputEmailAddress">Email</label>
+                                                    @Html.TextBoxFor(m => m.strUserId, new { @class = "form-control py-4", @placeholder = "Email" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="small mb-1" for="inputPassword">Password</label>
+                                                    @Html.PasswordFor(m => m.strPassword, new { @class = "form-control py-4", @placeholder = "Password" })
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input" id="rememberPasswordCheck" type="checkbox" />
+                                                        <label class="custom-control-label" for="rememberPasswordCheck">Remember password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
+                                                    <a class="small" href="password.html">Forgot Password?</a>
+                                                    <button type="submit" class="btn btn-primary" href="index.html">Login</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="card-footer text-center">
+                                            <div class="small"></div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div id="layoutAuthentication_footer">
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2020</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+       
+ 
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <div class="row">
+        <div class=" col-lg-4 col-md-4 col-sm-4  "></div>
+
+        <div style="margin-top:24px;margin-left:16px;margin-right:16px; padding:16px;" class=" col-lg-4 col-md-4 col-sm-4 thumbnail ;box-shadow:0 4px 8px rgba(1,1,0.2,0.2)">
+            @using (Html.BeginForm("LoginUser", "Home", FormMethod.Post, new { role = "form" }))
+            {
+                <div style="margin-top:24px;" class="card">
+                    <div class="card-header" style="background-color:#fce8ed">
+
+                        <div class="text-center "><h1>login</h1> </div>
+                    </div>
+                    <div class="card-body">
+
+                        <div>
+                            @Html.AntiForgeryToken()
+                            <div>
+
+                            </div>
+                            <div style="border-radius:8px;border-color:#921c37">
+                                @Html.TextBoxFor(m => m.strEmail, new { @class = "form-control txtbox", @placeholder = "Email" })
+                            </div>
+                            <div style="padding-top:20px;"></div>
+                            <div>
+
+                            </div>
+                            <div style="border-radius:8px;border-color:#921c37">
+                                @Html.PasswordFor(m => m.strPassword, new { @class = "form-control txtbox", @placeholder = "Password" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div style="text-align:center;margin-bottom:16px">
+
+
+
+                        <div style="padding-top:20px;">
+                            <input id="Button1" type="submit" value="Login" style=" width:180px;text-align:center;  box-shadow:0 4px 8px rgba(1,1,0.2,0.2); background-color:#921c37;padding:8px;border-radius:18px;color:white" />
+
+
+                        </div>
+                    </div>
+
+                    <div style="margin:24px">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                    <label class="custom-control-label" for="defaultUnchecked">Remember Me</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <a asp-action="" asp-controller="">  Forgot Password</a>
+
+                            </div>
+                        </div>
+                        <p></p>
+                        <div>
+                            Don't have an account? <a asp-action="Create" asp-controller="c_Users"> Sign Up</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            }
+        </div>
+
+        <div class=" col-lg-4 col-md-4 col-sm-4  "></div>
+    </div>
+
 </div>
+
+<!-- Button trigger modal -->

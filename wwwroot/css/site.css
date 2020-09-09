@@ -219,7 +219,7 @@ nav.navbar.navbar-default {
     box-shadow: -1px -1px 5px -1px rgba(0,0,0,0.75);
 }
 @font-face {
-    font-family: "best";
+    font-family:"best";
     src: url(/Fonts/best1.ttf);
     /*  src: url("CustomFont.woff") format("woff"), url("CustomFont.otf") format("opentype"), url("CustomFont.svg#filename") format("svg");*/
 }

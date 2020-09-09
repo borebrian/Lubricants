@@ -10,6 +10,7 @@ using Lubricants.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Grpc.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Lubricants.Controllers
 {
@@ -25,6 +26,7 @@ namespace Lubricants.Controllers
         }
 
         // GET: Item_category
+    
         public async Task<IActionResult> Index()
         {
             return View(await _context.Items_category.ToListAsync());
@@ -49,19 +51,21 @@ namespace Lubricants.Controllers
 
             return View(item_category);
         }
-
+        //acha nkuekee ya kulog uot...so kwanza tunadisplayub user ...but unaezaweka invisible..
         // GET: Item_category/Create
+        [Authorize]
         public IActionResult Create()
         {
             List<Item_category> itemlist = _context.Items_category.ToList();
             ViewBag.itemlist = itemlist;
             return View();
         }
-
+        //run
         // POST: Item_category/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create( Item_category model)
         {

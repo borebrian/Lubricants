@@ -44,7 +44,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Add_item" asp-action="SubmitStock"><i class="fa fa-list-ul" aria-hidden="true"></i> &nbsp;Reports</a>
                         </li>
-                    </ul>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+
+                                @User.Identity.Name
+                            </li>
+                        }
+                        else
+                        {
+                           
+                        }
+                        </ul>
                 </div>
             </div>
         </nav>

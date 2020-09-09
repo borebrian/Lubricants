@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fuela.DBContext;
 using Lubricants.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Lubricants.Controllers
@@ -17,6 +19,8 @@ namespace Lubricants.Controllers
         {
             _context = context;
         }
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [AllowAnonymous]
         public IActionResult Log_in()
         {
             return View();

@@ -1,0 +1,116 @@
+﻿@model Lubricants.Models.Stock_summary
+
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="w3-card">
+    <header class="w3-container bg-light  ">
+        <h6> <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;&nbsp;|&nbsp;&nbsp;     Reports</h6>
+    </header>
+
+</div>
+
+
+
+<h4>Stock_summary</h4>
+<hr />
+<div class="w3-card">
+    <header class="w3-container bg-light  " style="padding:10px;">
+        <table class="table">
+            <tr>
+                <th>Color</th>
+                <th>Indicator</th>
+            </tr>
+            <tr>
+                           
+                <td>
+                    <span class="badge badge-pill badge-dark"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                </td>
+                <td>
+                    Item name
+                </td>
+            </tr><tr>
+                           
+                <td>
+                    <span class="badge badge-pill badge-info"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                </td>
+                <td>
+                    Item(s) sold
+                </td>
+            </tr><tr>
+                           
+                <td>
+                    <span class="badge badge-pill badge-success"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                </td>
+                <td>
+                    Cash made
+                </td>
+            </tr><tr>
+                           
+                <td>
+                    <span class="badge badge-pill badge-danger"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+                </td>
+                <td>
+                  Current stock
+                </td>
+            </tr>
+        </table>
+      
+            @if (ViewBag.JoinList != null)
+            {
+                @foreach (var item in ViewBag.JoinList)
+                {
+                    <div class="row" style="font-size:13px;margin-top:10px;">
+
+                        <div class="col-lg-1 col-2">
+
+                            <img class="rounded-circle" src="/@item.ImageURL" style="height:30px;width:30px;border:1px solid black" alt="Card image">
+
+                        </div>
+                        <div class="col-lg-1 col-1">
+                         |
+                        </div>
+                        <div class="col-lg-2 col-2" >
+
+                            <span class="badge badge-pill badge-dark"> @item.Item_name</span>
+
+</div>
+                        <div class="col-lg-2 col-2">
+
+                            <span class="badge badge-pill badge-info">   @item.item_sold</span>
+
+                        </div>
+                        <div class="col-lg-2  col-2">
+
+                            <span class="badge badge-pill badge-success">   @item.Cash_made</span>
+
+                        </div> 
+                        <div class="col-lg-2  col-2">
+                            <span class="badge badge-pill badge-danger">
+                                @item.Quantity</span>
+
+                        </div>
+                        </div>
+
+
+
+
+
+                        }
+
+                        }
+                        else
+                        {
+                        }
+                 
+
+</header>
+
+</div>
+
+
+        <div>
+
+            <a asp-action="Index">Back to List</a>
+        </div>
